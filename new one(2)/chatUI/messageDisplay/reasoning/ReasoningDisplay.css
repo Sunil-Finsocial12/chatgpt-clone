@@ -1,0 +1,44 @@
+.reasoning-display {
+  background-color: #2d2d3a;
+  border-radius: 8px;
+  padding: 12px;
+  margin: 8px 0;
+}
+
+.reasoning-title {
+  color: #10a37f;
+  margin: 0 0 10px 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.reasoning-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.reasoning-step {
+  display: flex;
+  align-items: flex-start;
+}
+
+.step-number {
+  background-color: #10a37f;
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  margin-right: 10px;
+  flex-shrink: 0;
+}
+
+.step-content {
+  flex: 1;
+  line-height: 1.5;
+}

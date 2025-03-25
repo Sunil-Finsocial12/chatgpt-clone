@@ -1,0 +1,562 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.chat-active {
+  max-width: 850px !important;
+  width: 95% !important;
+  margin: 0 auto;
+  padding: 0 1rem;
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  background: transparent;
+}
+
+.chat-active .messages-container {
+  height: calc(100vh - 200px);
+  overflow-y: auto;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+}
+
+@keyframes slideInFromTop {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slideInFromTop {
+  animation: slideInFromTop 0.5s ease forwards;
+}
+
+.chat-active .hidden-during-chat {
+  animation: slideUp 0.5s ease-out forwards;
+}
+
+/* Add smooth transition for dark mode */
+.chat-glow {
+  border-radius: 20px !important;
+  overflow: hidden;
+  transition: all 0.3s ease, background-color 0.3s ease;
+  width: 100% !important;
+  max-width: 850px !important;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* Update message bubble styles */
+.message-bubble {
+  border-radius: 20px !important;
+  transition: all 0.3s ease, background-color 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  max-width: 70% !important;
+   /* Reduce max width of messages */
+}
+
+.dark .chat-glow {
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+}
+
+.chat-glow:focus-within {
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.15);
+  transform: translateY(-1px);
+}
+
+.dark .chat-glow:focus-within {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.message-bubble {
+  border-radius: 20px !important;
+  transition: all 0.3s ease, background-color 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  max-width: 100% !important; /* Reduce max width of messages */
+}
+
+.dark .message-bubble {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.message-bubble:hover {
+  transform: translateY(-1px);
+  cursor: pointer;
+}
+
+.message-bubble::after {
+  content: '';
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  background-color: currentColor;
+}
+
+.message-bubble:hover::after {
+  opacity: 0.3;
+}
+
+.user-message {
+  box-shadow: 0 2px 12px rgba(99, 102, 241, 0.15);
+  margin-left: auto;
+  background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+}
+
+.assistant-message {
+  box-shadow: 0 2px 12px rgba(31, 41, 55, 0.1);
+  margin-right: auto;
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+}
+
+/* Remove specific message corner styles */
+.message-bubble.user-message,
+.message-bubble.assistant-message {
+  border-radius: 20px !important;
+}
+
+/* Static Hind AI text */
+.brand-text {
+  position: relative;
+  font-family: 'Dancing Script', cursive;
+  background: linear-gradient(135deg, #4F46E5, #818CF8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+/* Add padding to compensate for the arrow button */
+.brand-text + button {
+  margin-left: -0.5rem;
+}
+
+/* Clean textarea appearance */
+textarea {
+  transition: height 0.2s ease, min-height 0.2s ease;
+  line-height: 1.5;
+  overflow-y: auto !important;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(99, 102, 241, 0.3) transparent;
+  margin-bottom: 0 !important; /* Ensure no unexpected margin */
+  min-height: 56px !important;
+  border: none !important;
+  padding: 16px !important;
+  border-radius: 20px !important;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+textarea:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+textarea::-webkit-scrollbar {
+  width: 6px;
+}
+
+textarea::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+textarea::-webkit-scrollbar-thumb {
+  background-color: rgba(99, 102, 241, 0.3);
+  border-radius: 3px;
+}
+
+/* Chat input container */
+.chat-input-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 56px;
+  max-height: 200px;
+  transition: all 0.3s ease;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Toolbar styles */
+.chat-toolbar {
+  position: relative;
+  background: inherit;
+  border-top: none;
+  transition: all 0.2s ease;
+  z-index: 10;
+  padding: 0.5rem;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+.chat-toolbar.floating {
+  backdrop-filter: blur(8px);
+}
+
+/* Add padding when content grows */
+.chat-input-growing {
+  padding-bottom: 60px;
+}
+
+/* Add padding when content grows */
+.chat-input-growing textarea {
+  padding-bottom: 4rem !important;
+}
+
+/* Ensure toolbar visibility */
+.chat-glow .chat-toolbar {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Professional Greeting Text Style */
+.greeting-text {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: linear-gradient(120deg, #2563eb, #4f46e5, #7c3aed);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1.4;
+  letter-spacing: -0.02em;
+  padding: 0.2em 0;
+  margin: 0;
+}
+
+/* Updated Auth Form Styles */
+.container {
+  position: relative;
+  overflow: hidden;
+  width: 768px;
+  max-width: 100%;
+  min-height: 580px;
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25);
+}
+
+.form-container {
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  transition: all 0.6s ease-in-out;
+  opacity: 0;
+  z-index: 1;
+}
+
+.sign-in-container {
+  left: 0;
+  width: 50%;
+  z-index: 2;
+  opacity: 1;
+}
+
+.sign-up-container {
+  left: 0;
+  opacity: 0;
+  transform: translateX(-100%);
+}
+
+.container.right-panel-active .sign-in-container {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+.container.right-panel-active .sign-up-container {
+  transform: translateX(100%);
+  opacity: 1;
+  z-index: 5;
+}
+
+@keyframes show {
+  0%, 49.99% {
+    opacity: 0;
+    z-index: 1;
+  }
+  
+  50%, 100% {
+    opacity: 1;
+    z-index: 5;
+  }
+}
+
+.overlay-container {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+  transition: transform 0.6s ease-in-out;
+  z-index: 50;  /* Lower than form containers */
+}
+
+.container.right-panel-active .overlay-container {
+  transform: translateX(-100%);
+}
+
+/* Updated Auth Form Styles with blue theme */
+.overlay {
+  background: linear-gradient(45deg, #3B82F6, #2563EB);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 0 0;
+  color: #FFFFFF;
+  position: relative;
+  left: -100%;
+  height: 100%;
+  width: 200%;
+  transform: translateX(0);
+  transition: transform 0.6s ease-in-out;
+}
+
+.container.right-panel-active .overlay {
+  transform: translateX(50%);
+}
+
+.overlay-panel {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 40px;
+  text-align: center;
+  top: 0;
+  height: 100%;
+  width: 50%;
+  transform: translateX(0);
+  transition: transform 0.6s ease-in-out;
+}
+
+.overlay-left {
+  transform: translateX(-20%);
+}
+
+.container.right-panel-active .overlay-left {
+  transform: translateX(0);
+}
+
+.overlay-right {
+  right: 0;
+  transform: translateX(0);
+}
+
+.container.right-panel-active .overlay-right {
+  transform: translateX(20%);
+}
+
+.auth-button {
+  background: linear-gradient(45deg, #3B82F6, #2563EB);
+  border: none;
+  color: white;
+  padding: 12px 45px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+}
+
+.auth-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 14px rgba(59, 130, 246, 0.2), 0 3px 6px rgba(59, 130, 246, 0.1);
+}
+
+.auth-button:active {
+  transform: scale(0.95);
+}
+
+.auth-button:focus {
+  outline: none;
+}
+
+.auth-button.ghost {
+  background: transparent;
+  border: 2px solid white;
+  color: white;
+}
+
+.auth-button.ghost:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.auth-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.auth-input {
+  background-color: #eee;
+  border: none;
+  padding: 12px 15px;
+  margin: 8px 0;
+  width: 100%;
+  border-radius: 4px;
+}
+
+.social-container {
+  margin: 20px 0;
+}
+
+.social-container a {
+  border: 1px solid #DDDDDD;
+  border-radius: 50%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 5px;
+  height: 40px;
+  width: 40px;
+  text-decoration: none;
+  color: #333;
+}
+
+/* Auth Page Specific Styles */
+.auth-card-glow {
+  box-shadow: 0 0 25px rgba(59, 130, 246, 0.2),
+              0 0 50px rgba(59, 130, 246, 0.1),
+              0 0 75px rgba(59, 130, 246, 0.05);
+  animation: authGlow 3s infinite;
+}
+
+@keyframes authGlow {
+  0%, 100% {
+    box-shadow: 0 0 25px rgba(59, 130, 246, 0.2),
+                0 0 50px rgba(59, 130, 246, 0.1),
+                0 0 75px rgba(59, 130, 246, 0.05);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(59, 130, 246, 0.3),
+                0 0 60px rgba(59, 130, 246, 0.2),
+                0 0 90px rgba(59, 130, 246, 0.1);
+  }
+}
+
+/* Add styles for collapsible sidebar */
+.sidebar-collapsed {
+  width: 4rem;
+}
+
+.sidebar-collapsed:hover,
+.sidebar-collapsed:focus-within {
+  width: 18rem;
+}
+
+/* Smooth transitions for sidebar elements */
+.sidebar-content span {
+  transition: opacity 0.3s ease;
+}
+
+.sidebar-collapsed .sidebar-content span {
+  opacity: 0;
+}
+
+.sidebar-collapsed:hover .sidebar-content span,
+.sidebar-collapsed:focus-within .sidebar-content span {
+  opacity: 1;
+}
+
+/* Ensure the messages container starts from top */
+.messages-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+/* Smooth scroll behavior for the messages container */
+.messages-scroll {
+  scroll-behavior: smooth;
+}
+
+.moving-border {
+  position: relative;
+  border-radius: 20px; /* Keep your existing border-radius */
+}
+
+.moving-border::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 20px; /* Same as parent */
+  border: 2px solid transparent;
+  animation: borderMove 10s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes borderMove {
+  0% {
+    border-image: linear-gradient(90deg, transparent, #00ffcc, transparent) 1;
+  }
+  25% {
+    border-image: linear-gradient(180deg, transparent, #00ffcc, transparent) 1;
+  }
+  50% {
+    border-image: linear-gradient(270deg, transparent, #2D336B, transparent) 1;
+  }
+  75% {
+    border-image: linear-gradient(360deg, transparent, #2D336B, transparent) 1;
+  }
+  100% {
+    border-image: linear-gradient(90deg, transparent, #00ffcc, transparent) 1;
+  }
+}
+
+/* Default scrollbar (Light Mode) */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #666;
+}
+
+/* Dark Mode Scrollbar */
+.dark ::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #2D336b, #00ffcc);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #2D336b, #00ffcc);
+}
+
+
+

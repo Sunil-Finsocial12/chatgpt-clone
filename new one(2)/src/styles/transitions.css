@@ -1,0 +1,33 @@
+#main-chat-content {
+  transition: all 0.3s ease-in-out;
+  will-change: transform, width;
+  position: relative;
+  width: 100%;
+}
+
+@media (max-width: 1024px) {
+  #main-chat-content {
+    transform: none !important;
+    width: 100% !important;
+  }
+}
+
+.slide-transition {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.code-editor-enter {
+  transform: translateX(100%);
+}
+
+.code-editor-enter-active {
+  transform: translateX(0);
+}
+
+.code-editor-exit {
+  transform: translateX(0);
+}
+
+.code-editor-exit-active {
+  transform: translateX(100%);
+}
